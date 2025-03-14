@@ -18,11 +18,7 @@ plugins=()
 source $ZSH/oh-my-zsh.sh
 
 # Set PATH (remove duplicates)
-# export PATH="/usr/bin:/bin:$PATH"
-# export PATH=$(echo "$PATH" | awk -v RS=':' '!seen[$0]++' | paste -sd:)
-
 export PATH=$(printf "%s\n" $PATH | awk '!seen[$0]++' ORS=':')
-
 
 # Aliases for PHP Artisan
 alias pas="php artisan serve"
