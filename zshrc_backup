@@ -1,0 +1,89 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Disable Oh My Zsh auto-update checks
+zstyle ':omz:update' mode disabled
+
+# Set theme
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="bira"
+
+# Plugins
+plugins=()
+
+# Load Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+
+# Set PATH (remove duplicates)
+# export PATH="/usr/bin:/bin:$PATH"
+# export PATH=$(echo "$PATH" | awk -v RS=':' '!seen[$0]++' | paste -sd:)
+
+export PATH=$(printf "%s\n" $PATH | awk '!seen[$0]++' ORS=':')
+
+
+# Aliases for PHP Artisan
+alias pas="php artisan serve"
+alias pam="php artisan migrate"
+
+# Alias for opening VS Code
+alias c.="code ."
+alias ؤ.="code ."
+
+# Alias for npm commands
+alias nrd="npm run dev"
+alias ni="npm install"
+alias ns="npm start"
+
+# Alias for Composer commands
+alias cu="composer update"
+alias ci="composer install"
+
+# Git aliases
+alias ga="git add ."
+alias gcom="git commit"
+alias gcomu="git commit -m 'update'"
+alias gb="git branch"
+alias gc="git checkout $1"
+alias gs="git status"
+
+
+# Unalias before defining functions
+unalias gp 2>/dev/null
+unalias ggp 2>/dev/null
+
+# Git Pull function
+gp() {
+    local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [[ -z "$branch" ]]; then
+        echo "Not a Git repository!"
+        return 1
+    fi
+    echo "Pulling from origin/$branch..."
+    git pull origin "$branch"
+}
+
+# Git Push function
+ggp() {
+    local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [[ -z "$branch" ]]; then
+        echo "Not a Git repository!"
+        return 1
+    fi
+    echo "Pushing to origin/$branch..."
+    git push origin "$branch"
+}
+
+# Git Add, Commit, Push function
+gacp() {
+    ga
+    gcomu
+    ggp  # Calls the git push function
+}
+
+
+
+# Reload shell configuration
+alias reload="source ~/.zshrc"
